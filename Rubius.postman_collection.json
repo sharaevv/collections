@@ -1,0 +1,190 @@
+{
+	"info": {
+		"_postman_id": "635ea68f-5274-4455-afd6-d12ec668d64f",
+		"name": "Rubius",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11098637"
+	},
+	"item": [
+		{
+			"name": "Создание первого пользователя",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set('email1',_.random(1000)+'@gmail.com')"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{email1}}\",\n    \"name\": \"{{$randomFullName}}\",\n    \"password\": \"1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}doregister",
+					"host": [
+						"{{url}}doregister"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание второго пользователя",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set('email2',_.random(1000)+'@gmail.com')"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{email2}}\",\n    \"name\": \"{{$randomFullName}}\",\n    \"password\": \"1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}doregister",
+					"host": [
+						"{{url}}doregister"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание третьего пользователя",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set('email3',_.random(1000)+'@gmail.com')"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{email3}}\",\n    \"name\": \"{{$randomFullName}}\",\n    \"password\": \"1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}doregister",
+					"host": [
+						"{{url}}doregister"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание компании",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"companyName\", jsonData.company.name)",
+							"",
+							"pm.test(\"Компания создалась, все круто, ушел пить кофе\", function() {",
+							"    pm.response.to.have.status(200)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"company_name\": \"{{$randomCompanyName}}\",\n  \"company_type\": \"ООО\",\n  \"company_users\": [\"{{email1}}\", \"{{email2}}\"],\n  \"email_owner\": \"{{email3}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}createcompany",
+					"host": [
+						"{{url}}createcompany"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Поиск компании",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Компания нашлась, все круто, ушел пить кофе\", function() {",
+							"    pm.response.to.have.status(235)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"query\":\"{{companyName}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}magicsearch",
+					"host": [
+						"{{url}}magicsearch"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
